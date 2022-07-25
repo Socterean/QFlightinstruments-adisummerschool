@@ -94,7 +94,6 @@ void qfi_AI::reinit()
     if ( _scene )
     {
         _scene->clear();
-
         init();
     }
 }
@@ -128,8 +127,8 @@ void qfi_AI::setPitch( double pitch )
 {
     _pitch = pitch;
 
-    if ( _pitch < -25.0 ) _pitch = -25.0;
-    if ( _pitch >  25.0 ) _pitch =  25.0;
+    if ( _pitch < -90.0 ) _pitch = -90.0;
+    if ( _pitch >  90.0 ) _pitch =  90.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,12 +158,19 @@ void qfi_AI::init()
     _itemBack->setTransformOriginPoint( _originalAdiCtr );
     _scene->addItem( _itemBack );
 
+
     _itemFace = new QGraphicsSvgItem( ":/qfi/images/ai/ai_face.svg" );
+    double ai_face_height = 500;
+    double ai_face_width = 500;
     _itemFace->setCacheMode( QGraphicsItem::NoCache );
     _itemFace->setZValue( _faceZ );
-    _itemFace->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemFace->setTransformOriginPoint( _originalAdiCtr );
+    double face_scaleX = static_cast< double >( width() ) / ai_face_height;
+    double face_scaleY = static_cast< double >( height() ) / ai_face_width;
+    _itemFace->setTransform( QTransform::fromScale( face_scaleX, face_scaleY), true );
+    _itemFace->setTransformOriginPoint(QPointF(250,250));
+    _itemFace->setScale(1.5);
     _scene->addItem( _itemFace );
+
 
     _itemRing = new QGraphicsSvgItem( ":/qfi/images/ai/ai_ring.svg" );
     _itemRing->setCacheMode( QGraphicsItem::NoCache );
@@ -220,7 +226,8 @@ void qfi_AI::updateView()
     _faceDeltaX_new = _scaleX * delta * sin( roll_rad );
     _faceDeltaY_new = _scaleY * delta * cos( roll_rad );
 
-    _itemFace->moveBy( _faceDeltaX_new - _faceDeltaX_old, _faceDeltaY_new - _faceDeltaY_old );
+
+    _itemFace->moveBy( _faceDeltaX_new - _faceDeltaX_old, _faceDeltaY_new - _faceDeltaY_old);
 
     _scene->update();
 }

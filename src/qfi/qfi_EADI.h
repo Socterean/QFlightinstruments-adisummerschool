@@ -256,14 +256,14 @@ protected:
     /** */
     void resizeEvent( QResizeEvent *event );
 
-private:
+public:
 
     class ADI;
     class ALT;
     class ASI;
     class HDG;
     class VSI;
-
+private:
     QGraphicsScene *_scene;                 ///< graphics scene
 
     qfi_EADI::ADI *_adi;                    ///<
@@ -315,6 +315,7 @@ private:
 
     void updateView();
 
+public:
     /** Attitude Director Indicator */
     class ADI
     {
